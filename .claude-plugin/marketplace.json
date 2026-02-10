@@ -1,19 +1,24 @@
 {
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "continuous-tools",
-  "owner": {
-    "name": "Continuous Engineering",
-    "email": "engineering@continuous.com"
-  },
   "metadata": {
     "description": "Continuous engineering development tools",
     "version": "1.0.0"
+  },
+  "owner": {
+    "name": "Continuous Engineering",
+    "email": "engineering@continuous.com"
   },
   "plugins": [
     {
       "name": "ct",
       "source": "./plugins/ct",
       "description": "Development commands, agents, and skills",
-      "version": "1.0.0"
+      "version": "1.0.0",
+      "author": {
+        "name": "Continuous Platform Team"
+      },
+      "category": "development"
     }
   ]
 }
