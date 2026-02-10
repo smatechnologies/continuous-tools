@@ -11,7 +11,7 @@
   "plugins": [
     {
       "name": "ct",
-      "source": "./plugins/continuous-dev",
+      "source": "./plugins/ct",
       "description": "Development commands, agents, and skills",
       "version": "1.0.0"
     }
