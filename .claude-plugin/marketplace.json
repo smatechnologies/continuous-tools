@@ -1,0 +1,19 @@
+{
+  "name": "continuous-tools",
+  "owner": {
+    "name": "Continuous Engineering",
+    "email": "engineering@continuous.com"
+  },
+  "metadata": {
+    "description": "Continuous engineering development tools",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "ct",
+      "source": "./plugins/continuous-dev",
+      "description": "Development commands, agents, and skills",
+      "version": "1.0.0"
+    }
+  ]
+}
