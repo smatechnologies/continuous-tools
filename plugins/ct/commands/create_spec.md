@@ -53,11 +53,24 @@ Tip: You can invoke this command with a description directly: `/create_spec <you
 
 Then wait for the user's input.
 
+## Progress Signaling
+
+**CRITICAL**: This is a long-running, multi-step process. You MUST signal progress to the user at every stage so they know the command is actively working and not hung.
+
+1. **Step announcements**: Before beginning each step, announce it:
+   > **Step N/7: [Step Name]** — [Brief description of what's happening next]...
+
+2. **Research phase tracking**: When spawning research agents (which can take 30-60+ seconds), create a **single** TaskCreate task to cover the entire research phase (e.g., activeForm: "Researching codebase and gathering context..."). Mark it `in_progress` before spawning agents. Do NOT mark it `completed` until ALL agents have returned and you have processed their results. The individual agent calls already show their own progress in the UI — do not duplicate per-agent tracking with separate TaskCreate tasks.
+
+3. **Research summaries**: After research agents return, present a brief summary of findings before moving on, so the user sees concrete output from the wait.
+
 ## Process Steps
 
 **CRITICAL**: This is an interactive, research-driven process. Use specialized agents to gather context from the codebase and external sources. Present all findings to the user and engage in dialog before proceeding to requirements gathering.
 
 ### Step 1: Initial Understanding & Context Gathering
+
+**Announce**: > **Step 1/7: Initial Understanding & Context Gathering** — Parsing your description and researching the codebase for relevant context...
 
 **IMPORTANT**: The feature to specify is determined ONLY by the user's input — not by any templates, examples, or placeholder text in this prompt.
 
@@ -69,6 +82,13 @@ Then wait for the user's input.
 
 2. **RESEARCH PHASE - Critical for comprehensive specs**:
 
+   **Before spawning research agents**, create a single TaskCreate task for the research phase:
+   - `activeForm`: "Researching codebase and gathering context for [feature]..."
+   - Mark it `in_progress` immediately so the user sees a spinner
+   - Do NOT mark it `completed` until ALL research agents have returned and you have summarized findings
+
+   **Prefer parallel execution**: When research agents are independent of each other, include all Task tool calls in a single message so they run concurrently. Only run agents sequentially when one agent's output is needed to inform the next agent's prompt.
+
    **a) Research external knowledge when needed:**
    - Use **web-search-researcher** agent when clarification or domain knowledge is critical
    - Research: industry standards, best practices, technical approaches, domain-specific requirements
@@ -79,6 +99,14 @@ Then wait for the user's input.
    - Use **codebase-locator** to find related existing features
    - Identify patterns and conventions that should be followed
    - Present codebase findings to user
+
+   **c) Research summary checkpoint:**
+   After all research agents return, present a consolidated summary:
+   ```
+   **Research Complete.** Here's what I found:
+   - Codebase: [Key patterns, related features, conventions discovered]
+   - External: [Relevant standards, best practices, domain insights]
+   ```
 
    **IMPORTANT**: The research phase is interactive. Present findings incrementally and engage user in dialog:
    - "I found these relevant patterns in the codebase. Here's what they tell us..."
@@ -100,6 +128,8 @@ Then wait for the user's input.
    ```
 
 ### Step 2: Requirements Discovery
+
+**Announce**: > **Step 2/7: Requirements Discovery** — Diving deeper into user journeys, technical constraints, and edge cases...
 
 Based on initial answers, dig deeper with targeted questions:
 
@@ -133,6 +163,8 @@ Based on initial answers, dig deeper with targeted questions:
 
 ### Step 3: User Story Development
 
+**Announce**: > **Step 3/7: User Story Development** — Generating user stories from gathered requirements...
+
 1. **Generate initial user stories** based on gathered requirements:
    ```
    Based on our discussion, here are the key user stories I've identified:
@@ -153,6 +185,8 @@ Based on initial answers, dig deeper with targeted questions:
 2. **Refine stories based on feedback**
 
 ### Step 4: Acceptance Criteria Development
+
+**Announce**: > **Step 4/7: Acceptance Criteria Development** — Defining testable acceptance criteria for each user story...
 
 For each user story, develop detailed acceptance criteria:
 
@@ -177,6 +211,8 @@ Does this capture the expected behavior correctly?
 ```
 
 ### Step 5: Functional Requirements Documentation
+
+**Announce**: > **Step 5/7: Functional Requirements Documentation** — Organizing requirements by category and confirming technical approach...
 
 1. **Organize requirements by category**:
    - Data requirements
@@ -207,6 +243,8 @@ Does this capture the expected behavior correctly?
    ```
 
 ### Step 6: Create Feature Specification Document
+
+**Announce**: > **Step 6/7: Creating Feature Specification Document** — Writing the full specification to disk...
 
 1. **Determine the feature directory from current git branch**:
    - Run `git branch --show-current` to get the current branch name (e.g., `007-extraction-enhancements`)
@@ -520,6 +558,8 @@ Does this capture the expected behavior correctly?
 ```
 
 ### Step 7: Review and Iteration
+
+**Announce**: > **Step 7/7: Review and Iteration** — Presenting the specification for your review...
 
 1. **Present the specification for review**:
    ```

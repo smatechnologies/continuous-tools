@@ -41,9 +41,22 @@ For deeper analysis, try: `/create_plan think deeply about path/to/ticket.md`
 
 Then wait for the user's input.
 
+## Progress Signaling
+
+**CRITICAL**: This is a long-running, multi-step process. You MUST signal progress to the user at every stage so they know the command is actively working and not hung.
+
+1. **Step announcements**: Before beginning each step, announce it:
+   > **Step N/6: [Step Name]** — [Brief description of what's happening next]...
+
+2. **Research phase tracking**: When spawning research agents (which can take 30-60+ seconds), create a **single** TaskCreate task to cover the entire research phase (e.g., activeForm: "Researching codebase and gathering context..."). Mark it `in_progress` before spawning agents. Do NOT mark it `completed` until ALL agents have returned and you have processed their results. The individual agent calls already show their own progress in the UI — do not duplicate per-agent tracking with separate TaskCreate tasks.
+
+3. **Research summaries**: After research agents return, present a brief summary of findings before moving on, so the user sees concrete output from the wait.
+
 ## Process Steps
 
 ### Step 1: Context Gathering & Initial Analysis
+
+**Announce**: > **Step 1/6: Context Gathering & Initial Analysis** — Reading referenced files and researching the codebase...
 
 1. **Read all mentioned files immediately and FULLY**:
    - Ticket files
@@ -55,8 +68,16 @@ Then wait for the user's input.
    - **NEVER** read files partially - if a file is mentioned, read it completely
 
 2. **Spawn initial research tasks to gather context**:
-   Before asking the user any questions, use specialized agents to research in parallel:
+   Before asking the user any questions, use specialized agents to research.
 
+   **Create a single TaskCreate task for the research phase:**
+   - `activeForm`: "Researching codebase for [feature/ticket topic]..."
+   - Mark it `in_progress` immediately so the user sees a spinner
+   - Do NOT mark it `completed` until ALL research agents below have returned and you have summarized findings
+
+   **Prefer parallel execution**: When research agents are independent of each other, include all Task tool calls in a single message so they run concurrently. Only run agents sequentially when one agent's output is needed to inform the next agent's prompt.
+
+   Agents to spawn:
    - Use the **codebase-locator** agent to find all files related to the ticket/task
    - Use the **codebase-analyzer** agent to understand how the current implementation works
    - If a Linear ticket is mentioned, use the **linear-ticket-reader** agent to get full details
@@ -71,13 +92,22 @@ Then wait for the user's input.
    - Read them FULLY into the main context
    - This ensures you have complete understanding before proceeding
 
-4. **Analyze and verify understanding**:
+4. **Research summary checkpoint** — Present a consolidated summary of what research found:
+   ```
+   **Research Complete.** Here's what I found:
+   - [X] files identified as relevant across [Y] directories
+   - Key discovery: [Most important finding with file:line reference]
+   - Pattern: [Relevant convention or pattern to follow]
+   - Potential concern: [Any complexity or edge case spotted]
+   ```
+
+5. **Analyze and verify understanding**:
    - Cross-reference the ticket requirements with actual code
    - Identify any discrepancies or misunderstandings
    - Note assumptions that need verification
    - Determine true scope based on codebase reality
 
-5. **Present informed understanding and focused questions**:
+6. **Present informed understanding and focused questions**:
    ```
    Based on the ticket and my research of the codebase, I understand we need to [accurate summary].
 
@@ -94,7 +124,15 @@ Then wait for the user's input.
 
    Only ask questions that you genuinely cannot answer through code investigation.
 
+   **If no questions are needed**, announce to the user:
+   ```
+   My research covered all the context needed — no clarifying questions required. Skipping Step 2 and moving directly to plan structure.
+   ```
+   Then skip Step 2 and proceed to Step 3.
+
 ### Step 2: Research & Discovery
+
+**Announce**: > **Step 2/6: Research & Discovery** — Spawning research agents to investigate the codebase in depth...
 
 After getting initial clarifications:
 
@@ -107,16 +145,14 @@ After getting initial clarifications:
 2. **Create a research todo list** using TodoWrite to track exploration tasks
 
 3. **Spawn parallel sub-tasks for comprehensive research**:
-   - Create multiple Task agents to research different aspects concurrently
+   - Create a **single** TaskCreate task for this research phase (e.g., activeForm: "Deep-diving into [area] implementation and patterns..."). Mark `in_progress` before spawning, `completed` only after ALL agents return.
+   - **Prefer parallel execution**: When research agents are independent of each other, include all Task tool calls in a single message so they run concurrently. Only run agents sequentially when one agent's output is needed to inform the next agent's prompt.
    - Use the right agent for each type of research:
 
    **For deeper investigation:**
    - **codebase-locator** - To find more specific files (e.g., "find all files that handle [specific component]")
    - **codebase-analyzer** - To understand implementation details (e.g., "analyze how [system] works")
    - **codebase-pattern-finder** - To find similar features we can model after
-
-   **For related tickets:**
-   - **linear-searcher** - To find similar issues or past implementations
 
    Each agent knows how to:
    - Find the right files and code patterns
@@ -132,7 +168,7 @@ After getting initial clarifications:
    - Testing strategies and rollback procedures
    - Common pitfalls specific to this codebase area
 
-3. **Wait for ALL sub-tasks to complete** before proceeding
+3. **Wait for ALL sub-tasks to complete** before proceeding. Only now mark the research phase TaskCreate task as `completed`.
 
 4. **Present findings and design options**:
    ```
@@ -155,6 +191,8 @@ After getting initial clarifications:
 
 ### Step 3: Plan Structure Development
 
+**Announce**: > **Step 3/6: Plan Structure Development** — Drafting the plan outline and implementation phases...
+
 Once aligned on approach:
 
 1. **Create initial plan outline**:
@@ -175,6 +213,8 @@ Once aligned on approach:
 2. **Get feedback on structure** before writing details
 
 ### Step 4: Detailed Plan Writing
+
+**Announce**: > **Step 4/6: Detailed Plan Writing** — Writing the full implementation plan with code examples and file references...
 
 After structure approval:
 
@@ -347,6 +387,8 @@ new_function() {
 
 ### Step 5: Template Compliance Check
 
+**Announce**: > **Step 5/6: Template Compliance Check** — Verifying all required sections and formatting...
+
 1. **Verify all template sections are included**:
    - Current State Analysis with ✅❌⚠️ symbols
    - Current Problem with specific issues
@@ -361,6 +403,8 @@ new_function() {
    - Follow the established formatting conventions
 
 ### Step 6: Final Review
+
+**Announce**: > **Step 6/6: Final Review** — Presenting the plan for your review...
 
 1. **Present the draft plan location**:
    ```
@@ -417,9 +461,9 @@ new_function() {
    - Focus on actionable, AI-executable instructions
 
 6. **Track Progress**:
-   - Use TodoWrite to track planning tasks
-   - Update todos as you complete research
-   - Mark planning tasks complete when done
+   - Use a single TaskCreate task per research phase with a visible `activeForm` spinner — do not create per-agent tasks (the agent UI already shows individual agent progress)
+   - Mark the research task `in_progress` before spawning agents, `completed` only after ALL agents return and findings are summarized
+   - Announce each step transition so the user always knows what's happening
 
 7. **No Open Questions in Final Plan**:
    - If you encounter open questions during planning, STOP
