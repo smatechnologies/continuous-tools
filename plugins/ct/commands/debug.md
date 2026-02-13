@@ -44,7 +44,7 @@ If the agent's report doesn't clearly present findings to the user:
 1. Summarize the root cause identified
 2. Show the problematic code location (file:line)
 3. Explain the issue clearly
-4. Present the proposed fix
+4. Present the proposed fix, as well as any alternatives (explain their tradeoffs and why you recommend the proposed fix)
 
 ### Step 3: Apply Fix (if agent doesn't)
 If the agent didn't apply the fix:

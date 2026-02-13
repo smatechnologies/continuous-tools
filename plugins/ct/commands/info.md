@@ -31,10 +31,12 @@ You are tasked with displaying the ct plugin's info dashboard. Output the logo, 
 ───────────────────────────────────────────────────────
 ```
 
-**v1.0.0** — Continuous Tools for Claude Code
+## Continuous Tools for Claude Code
 
+### Plugin Status
 | | |
 |---|---|
+| **Version** | [1.0.1](https://github.com/smatechnologies/continuous-tools/blob/main/plugins/ct/CHANGELOG.md)|
 | **Mode** | [MODE] |
 | **Agents** | 14 available |
 | **Commands** | 11 loaded |

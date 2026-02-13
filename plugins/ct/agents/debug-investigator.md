@@ -78,9 +78,10 @@ Present your findings in a clear, structured format:
 - Any side effects or risks to consider
 - Testing strategy to verify the fix
 
-**Alternative Approaches** (if applicable):
+**Alternative Approaches**:
 - Other viable solutions with trade-offs
 - Why you recommend the primary approach
+- Only omit this section if there are no other viable options
 
 ### Phase 4: User Approval & Delegation
 1. **Wait for Explicit Approval**: Never proceed with implementation until the user confirms:
