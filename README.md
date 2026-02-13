@@ -11,8 +11,8 @@ Add to your repository's `.claude/settings.json`:
   "extraKnownMarketplaces": {
     "continuous-tools": {
       "source": {
-        "source": "git",
-        "url": "https://dev.azure.com/SMATechnologies/Internal/_git/ClaudeCode"
+        "source": "github",
+        "repo": "smatechnologies/continuous-tools"
       }
     }
   },
@@ -24,7 +24,7 @@ Add to your repository's `.claude/settings.json`:
 
 ### Manual
 ```
-/plugin marketplace add https://dev.azure.com/SMATechnologies/Internal/_git/ClaudeCode
+/plugin marketplace add smatechnologies/continuous-tools
 /plugin install ct@continuous-tools
 ```
 
@@ -33,6 +33,13 @@ Add to your repository's `.claude/settings.json`:
 
 ## Updating
 
+### Manual Update
 ```
 /plugin marketplace update continuous-tools
+```
+
+### Auto-Update
+Enable automatic updates for the marketplace:
+```
+/plugin → Marketplaces tab → continuous-tools → Enable auto-update
 ```

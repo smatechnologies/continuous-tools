@@ -78,6 +78,13 @@ Add this to your project's `.claude/settings.json` so team members are automatic
 
 ## Updates
 
+### Manual Update
 ```
 /plugin marketplace update continuous-tools
+```
+
+### Auto-Update
+Enable automatic updates for the marketplace:
+```
+/plugin → Marketplaces tab → continuous-tools → Enable auto-update
 ```
