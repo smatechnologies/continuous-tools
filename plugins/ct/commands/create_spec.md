@@ -94,14 +94,18 @@ Then wait for the user's input.
 
    **Prefer parallel execution**: When research agents are independent of each other, include all Task tool calls in a single message so they run concurrently. Only run agents sequentially when one agent's output is needed to inform the next agent's prompt.
 
+   **CRITICAL ORDERING — codebase-locator MUST run before codebase-analyzer**:
+   If both agents are needed, always spawn codebase-locator first, wait for its results, then spawn codebase-analyzer with the locator's findings included in the prompt. The web-search-researcher is independent and CAN run in parallel with codebase-locator.
+
    **a) Research external knowledge when needed:**
    - Use **web-search-researcher** agent when clarification or domain knowledge is critical
    - Research: industry standards, best practices, technical approaches, domain-specific requirements
    - Only when findings would significantly impact spec quality
    - Present research findings to user for discussion
 
-   **b) Search codebase for context:**
-   - Use **codebase-locator** to find related existing features
+   **b) Search codebase for context (run locator first, then analyzer if needed):**
+   - **First**: Use **codebase-locator** to find related existing features
+   - **Then** (after locator returns): If deeper analysis is needed, use **codebase-analyzer** to examine implementation details, providing it the file locations from the locator
    - Identify patterns and conventions that should be followed
    - Present codebase findings to user
 

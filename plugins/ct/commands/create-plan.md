@@ -82,10 +82,13 @@ Then wait for the user's input.
 
    **Prefer parallel execution**: When research agents are independent of each other, include all Task tool calls in a single message so they run concurrently. Only run agents sequentially when one agent's output is needed to inform the next agent's prompt.
 
+   **CRITICAL ORDERING — codebase-locator MUST run before codebase-analyzer**:
+   The codebase-locator identifies which files and components are relevant. The codebase-analyzer needs those file locations to know what to read and analyze. Always spawn codebase-locator first, wait for its results, then spawn codebase-analyzer with the locator's findings included in the prompt. Other independent agents (e.g., linear-ticket-reader) CAN run in parallel with codebase-locator.
+
    Agents to spawn:
-   - Use the **codebase-locator** agent to find all files related to the ticket/task
-   - Use the **codebase-analyzer** agent to understand how the current implementation works
-   - If a Linear ticket is mentioned, use the **linear-ticket-reader** agent to get full details
+   - **First**: Use the **codebase-locator** agent to find all files related to the ticket/task
+   - **Then** (after locator returns): Use the **codebase-analyzer** agent to understand how the current implementation works, providing it the file locations from the locator
+   - **In parallel with locator**: If a Linear ticket is mentioned, use the **linear-ticket-reader** agent to get full details
 
    These agents will:
    - Find relevant source files, configs, and tests
@@ -152,12 +155,12 @@ After getting initial clarifications:
 3. **Spawn parallel sub-tasks for comprehensive research**:
    - Create a **single** TaskCreate task for this research phase (e.g., activeForm: "Deep-diving into [area] implementation and patterns..."). Mark `in_progress` before spawning, `completed` only after ALL agents return.
    - **Prefer parallel execution**: When research agents are independent of each other, include all Task tool calls in a single message so they run concurrently. Only run agents sequentially when one agent's output is needed to inform the next agent's prompt.
+   - **CRITICAL ORDERING — codebase-locator MUST run before codebase-analyzer and codebase-pattern-finder**: Always spawn codebase-locator first, wait for its results, then spawn codebase-analyzer and codebase-pattern-finder (which CAN run in parallel with each other) with the locator's findings included in their prompts.
    - Use the right agent for each type of research:
 
    **For deeper investigation:**
-   - **codebase-locator** - To find more specific files (e.g., "find all files that handle [specific component]")
-   - **codebase-analyzer** - To understand implementation details (e.g., "analyze how [system] works")
-   - **codebase-pattern-finder** - To find similar features we can model after
+   - **First**: **codebase-locator** - To find more specific files (e.g., "find all files that handle [specific component]")
+   - **Then** (after locator returns, can run in parallel with each other): **codebase-analyzer** - To understand implementation details (e.g., "analyze how [system] works"), and **codebase-pattern-finder** - To find similar features we can model after. Provide both agents the file locations from the locator.
 
    Each agent knows how to:
    - Find the right files and code patterns

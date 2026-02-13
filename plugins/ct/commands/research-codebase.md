@@ -106,6 +106,9 @@ Then wait for the user's research query.
    - Use the **codebase-analyzer** agent to understand HOW specific code works (without critiquing it)
    - Use the **codebase-pattern-finder** agent to find examples of existing patterns (without evaluating them)
 
+   **CRITICAL ORDERING — codebase-locator MUST run before codebase-analyzer and codebase-pattern-finder**:
+   The codebase-locator identifies which files and components are relevant. Both the codebase-analyzer and codebase-pattern-finder need those file locations to know what to read and analyze. Always spawn codebase-locator first, wait for its results, then spawn codebase-analyzer and codebase-pattern-finder in parallel with the locator's findings included in their prompts.
+
    **IMPORTANT**: All agents are documentarians, not critics. They will describe what exists without suggesting improvements or identifying issues.
 
    **For web research (only if user explicitly asks):**
@@ -229,6 +232,7 @@ Then wait for the user's research query.
 1. **Parallel Execution**:
    - Always use parallel Task agents to maximize efficiency and minimize context usage
    - **Prefer parallel execution**: When research agents are independent of each other, include all Task tool calls in a single message so they run concurrently. Only run agents sequentially when one agent's output is needed to inform the next agent's prompt.
+   - **Exception — codebase-locator before codebase-analyzer and codebase-pattern-finder**: Always run codebase-locator first and feed its results into codebase-analyzer and codebase-pattern-finder. Both depend on the locator's output to know which files to read.
 
 2. **Sub-agent Result Verification**:
    - If a sub-agent returns unexpected or incomplete results, spawn follow-up agents to verify
