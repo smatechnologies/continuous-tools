@@ -27,19 +27,3 @@ Add to your repository's `.claude/settings.json`:
 /plugin marketplace add smatechnologies/continuous-tools
 /plugin install ct@continuous-tools
 ```
-
-## Plugin: ct
-
-
-## Updating
-
-### Manual Update
-```
-/plugin marketplace update continuous-tools
-```
-
-### Auto-Update
-Enable automatic updates for the marketplace:
-```
-/plugin → Marketplaces tab → continuous-tools → Enable auto-update
-```
