@@ -2,6 +2,10 @@
 
 All notable changes to the **ct** plugin will be documented in this file.
 
+## [1.0.5] - 2026-02-17
+### Improved
+- `/ct:implement-plan`, `/ct:review-code`, `/ct:debug`, and `/ct:commit` now use `AskUserQuestion` for inline interactive prompting, completing the migration across all commands.
+
 ## [1.0.4] - 2026-02-17
 ### Improved
 - `/ct:review-plan` and `/ct:review-spec` now use `AskUserQuestion` for inline interactive questioning, matching the pattern established in v1.0.3 for create commands.
