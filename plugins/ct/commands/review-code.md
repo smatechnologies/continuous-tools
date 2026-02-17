@@ -28,16 +28,12 @@ Always include the `model` parameter on every Task tool call based on the active
 **Mode Detection Process:**
 1. Check if input ends with `.md` → Plan Review Mode
 2. Check if input is a valid directory → Directory Review Mode  
-3. If ambiguous, ask user to clarify:
-   ```
-   Input: "[INPUT]"
-   
-   Review Mode Options:
-   A) Directory Review - Comprehensive review of all code files
-   B) Plan Review - Review only recent changes from plan implementation
-   
-   Which mode would you prefer?
-   ```
+3. If ambiguous, call `AskUserQuestion` with:
+   - Question: "I couldn't determine the review mode from your input. Which type of review would you like?"
+   - Options:
+     - "Directory Review" — Comprehensive review of all code files in the directory
+     - "Plan Review" — Review only recent changes from plan implementation
+   - **Do NOT output the options as plain text and end your response.**
 
 ## Execution Process
 

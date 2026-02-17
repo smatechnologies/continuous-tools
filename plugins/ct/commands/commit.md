@@ -20,10 +20,14 @@ You are tasked with creating git commits for the changes made during this sessio
    - Use imperative mood in commit messages
    - Focus on why the changes were made, not just what
 
-3. **Present your plan to the user:**
-   - List the files you plan to add for each commit
-   - Show the commit message(s) you'll use
-   - Ask: "I plan to create [N] commit(s) with these changes. Shall I proceed?"
+3. **Present your plan and confirm with the user:**
+   - Output the list of files and commit message(s) you plan to use
+   - Then call `AskUserQuestion` with:
+     - Question: "I plan to create [N] commit(s) with the changes shown above. Shall I proceed?"
+     - Options:
+       - "Proceed" — Create the commit(s) as described
+       - "Adjust" — Let me modify the plan first
+     - **Do NOT output the question as plain text and end your response.**
 
 4. **Execute upon confirmation:**
    - Use `git add` with specific files (never use `-A` or `.`)

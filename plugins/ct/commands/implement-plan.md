@@ -38,22 +38,21 @@ When given a plan path:
    - Note technology stack involved (FastAPI, Next.js, database, etc.)
 
 2. **Present Options to User**:
+   First, output a brief assessment:
    ```
    This appears to be a [SMALL/MEDIUM/LARGE] change:
    - Estimated lines: ~X
    - Files affected: Y ([file types])
    - Complexity: [Brief description]
    - Technology: [Main stack components]
-   
-   Implementation Options:
-   A) Quick implementation (minimal validation, direct edits)
-   B) Delegate to appropriate specialized agents  
-   C) Full structured process with comprehensive validation
-   
-   Recommended: [A/B/C] ([Brief reason])
-   
-   How would you like me to proceed?
    ```
+   Then call `AskUserQuestion` with:
+   - Question: "How would you like me to implement this plan?"
+   - Options (mark your recommendation):
+     - "Quick implementation" — Minimal validation, direct edits
+     - "Delegate to agents" — Use specialized agents for the work
+     - "Full structured process" — Comprehensive validation at every step
+   - **Do NOT output the options as plain text and end your response.**
 
 3. **Route Based on User Choice**:
    - **Option A**: Proceed with streamlined process below
@@ -134,14 +133,18 @@ Success Criteria: [What constitutes successful completion]
 1. **File Reality Check**:
    - For each file:line reference in plan, read the actual file
    - Compare plan's "Current Code" snippets with reality
-   - If ANY mismatch found, STOP and report:
+   - If ANY mismatch found, STOP. Output the drift details:
      ```
      Plan Drift Detected in [filename]:
      Plan Expected (line X): [code from plan]
      Actual Found: [actual code]
-     
-     Plan may be outdated. How should I proceed?
      ```
+     Then call `AskUserQuestion` with:
+     - Question: "Plan drift detected — the codebase has changed since the plan was written. How should I proceed?"
+     - Options:
+       - "Adapt plan" — Adjust the plan to match current code and continue
+       - "Abort" — Stop implementation so the plan can be updated first
+     - **Do NOT output the question as plain text and end your response.**
 
 2. **Architecture Verification**:
    - Confirm the codebase structure matches plan assumptions
@@ -207,21 +210,18 @@ Success Criteria: [What constitutes successful completion]
 - Make changes incrementally with verification between steps
 - Focus on the plan's intent, adapting to current reality as needed
 
-When things don't match the plan exactly, think about why and communicate clearly:
-
+When things don't match the plan exactly, think about why and communicate clearly. Output the issue details:
 ```
 Issue in Phase [N]:
 Expected: [what the plan says]
-Found: [actual situation]  
+Found: [actual situation]
 Why this matters: [explanation]
 Impact: [how this affects other changes]
-
-Options:
-A) [suggested approach 1]
-B) [suggested approach 2]
-
-How should I proceed?
 ```
+Then call `AskUserQuestion` with:
+- Question: a concise summary of the issue
+- Options: 2-3 concrete approaches to resolve it (describe each clearly)
+- **Do NOT output options as plain text and end your response.**
 
 ## Structured Task Management
 

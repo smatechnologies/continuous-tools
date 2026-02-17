@@ -48,7 +48,12 @@ If the agent's report doesn't clearly present findings to the user:
 
 ### Step 3: Apply Fix (if agent doesn't)
 If the agent didn't apply the fix:
-1. Ask user for confirmation to apply the proposed fix
+1. Call `AskUserQuestion` to confirm:
+   - Question: "Would you like me to apply the proposed fix?"
+   - Options:
+     - "Apply fix" — Implement the proposed fix now
+     - "Skip" — Don't apply; I'll handle it manually
+   - **Do NOT output the question as plain text and end your response.**
 2. If confirmed, implement the fix:
    - For simple fixes: Apply directly using Edit tool
    - For complex fixes involving multiple files/systems: Delegate to appropriate specialized agent (python-pro-backend, nextjs-fullstack-expert, etc.)
