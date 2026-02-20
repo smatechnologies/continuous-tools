@@ -1,5 +1,6 @@
 ---
 description: Research the codebase and generate a report
+argument-hint: [research topic or @context-file-path]
 ---
 
 # Research Codebase
