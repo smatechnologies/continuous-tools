@@ -2,6 +2,10 @@
 
 All notable changes to the **ct** plugin will be documented in this file.
 
+## [1.0.6] - 2026-02-20
+### Improved
+- `/ct:create-plan` no longer prompts for feedback after writing the plan files. Instead it presents the file locations and suggests `/ct:review-plan` as the next step, giving the user time to read the plans before reviewing.
+
 ## [1.0.5] - 2026-02-17
 ### Improved
 - `/ct:implement-plan`, `/ct:review-code`, `/ct:debug`, and `/ct:commit` now use `AskUserQuestion` for inline interactive prompting, completing the migration across all commands.

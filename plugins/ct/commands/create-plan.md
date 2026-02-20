@@ -413,19 +413,11 @@ new_function() {
    (list all phases)
    ```
 
-2. **Ask for review feedback using `AskUserQuestion`** — immediately after presenting the plan locations, call `AskUserQuestion` to gather feedback inline:
-   - Question: "How do the plans look?"
-   - Options: "Approve", "Needs changes"
-   - If the user selects a change option, iterate and ask again until approved.
-   - **Do NOT output a list of review questions as plain text and end your response.**
-
-3. **Iterate based on feedback** - be ready to:
-   - Add missing phases
-   - Adjust technical approach
-   - Clarify success criteria (both automated and manual)
-   - Add/remove scope items
-
-4. **Continue refining** until the user is satisfied
+2. **Suggest next step** — after presenting the plan locations, end your response with a suggestion to review:
+   ```
+   When you're ready, run `/ct:review-plan` to review the plans for completeness, clarity, and any adjustments.
+   ```
+   - **Do NOT ask the user for feedback here.** The user hasn't had time to read the full plans yet. Adjustments are handled by the `/ct:review-plan` command.
 
 ## Important Guidelines
 
