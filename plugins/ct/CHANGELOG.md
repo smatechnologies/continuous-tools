@@ -2,6 +2,10 @@
 
 All notable changes to the **ct** plugin will be documented in this file.
 
+## [1.0.7] - 2026-03-04
+### Added
+- `/ct:create_spec_wt.md` — inherits from `/ct:create_spec.md` (identical behavior) but first creates a git worktree asking the user for the JIRA issue id for the new branch name, only if the user is on the 'develop' or 'main' branch, hence protecting it from inadvertantly committing directly to it.
+
 ## [1.0.6] - 2026-02-20
 ### Improved
 - `/ct:create-plan` no longer prompts for feedback after writing the plan files. Instead it presents the file locations and suggests `/ct:review-plan` as the next step, giving the user time to read the plans before reviewing.

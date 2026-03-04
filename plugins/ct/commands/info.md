@@ -36,16 +36,16 @@ You are tasked with displaying the ct plugin's info dashboard. Output the logo, 
 ### Plugin Status
 | | |
 |---|---|
-| **Version** | [1.0.6](https://github.com/smatechnologies/continuous-tools/blob/main/plugins/ct/CHANGELOG.md)|
+| **Version** | [1.0.7](https://github.com/smatechnologies/continuous-tools/blob/main/plugins/ct/CHANGELOG.md)|
 | **Mode** | [MODE] |
 | **Agents** | 14 available |
-| **Commands** | 11 loaded |
+| **Commands** | 12 loaded |
 
 ### Workflow Commands (in suggested order of execution)
 
 | Command | Description |
 |---------|-------------|
-| `/ct:create-spec` | Create a feature specification interactively |
+| `/ct:create_spec` (or `/ct:create_spec_wt`) | Create a feature specification interactively (or do the same in a git worktree if on 'develop' or 'main') |
 | `/ct:review-spec` | Review a spec for clarity and completeness |
 | `/ct:research-codebase` | Research a particular aspect of the codebase in depth |
 | `/ct:create-plan` | Build an implementation plan (provide spec and/or research doc) |
