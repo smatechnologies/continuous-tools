@@ -2,6 +2,12 @@
 
 All notable changes to the **ct** plugin will be documented in this file.
 
+## [1.0.7] - 2026-03-04
+### Improved
+- `/ct:create-spec` now includes a branch safety check (Step 0): when invoked on the `develop` or `main` branch, it automatically creates a git worktree to protect those branches from accidental commits. On any other branch, it proceeds normally.
+### Fixed
+- Renamed command file from `create_spec` to `create-spec` for consistency with all other hyphenated command names.
+
 ## [1.0.6] - 2026-02-20
 ### Improved
 - `/ct:create-plan` no longer prompts for feedback after writing the plan files. Instead it presents the file locations and suggests `/ct:review-plan` as the next step, giving the user time to read the plans before reviewing.

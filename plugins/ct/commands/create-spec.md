@@ -1,5 +1,5 @@
 ---
-description: Create a detailed feature specification
+description: Create a detailed feature specification (with branch protection for develop/main)
 argument-hint: [feature-description]
 ---
 
@@ -20,15 +20,44 @@ Apply the following model assignment when using the Task tool:
 
 Always include the `model` parameter on every Task tool call based on the active mode and the agent's tier.
 
+## Pre-Flight: Branch Safety Check (Step 0)
+
+When this command is invoked, you MUST perform these checks **before doing anything else** (before research, before asking for a feature description, before any file I/O):
+
+1. **Check if this is a git repository**:
+   - Run `git rev-parse --is-inside-work-tree` via the Bash tool.
+   - If it fails (not a git repo), skip all worktree logic and proceed directly to the spec creation process below.
+
+2. **Check the current branch**:
+   - Run `git branch --show-current` via the Bash tool.
+   - If the current branch is **NOT** `develop` **and NOT** `main`, no worktree is needed. Announce: "Currently on branch `<branch-name>` — proceeding without creating a worktree." Then proceed to the spec creation process below.
+
+3. **If the current branch IS `develop` or `main`**:
+   - You MUST create a git worktree before making any changes.
+   - **Get the feature identifier**: Use `AskUserQuestion` to ask the user:
+     - Question: "What is the feature/ticket ID for this spec? (e.g., PROJ-123, FEAT-456)"
+     - This ID will be used for the worktree folder name and branch name.
+   - **Create the worktree**:
+     - Use the `EnterWorktree` tool with `name` set to the feature ID provided by the user (e.g., `PROJ-123`).
+     - This creates a worktree at `.claude/worktrees/<feature-id>/` on a new branch based on the current HEAD.
+   - **Confirm to the user**:
+     - Announce: "Created worktree and switched to branch `<branch-name>` to protect the `develop`/`main` branch. All spec work will happen here."
+
+### Important Rules
+
+- **NEVER** create or modify files while on the `develop` or `main` branch. The worktree step is mandatory when on those branches.
+- If `EnterWorktree` fails for any reason, **stop and inform the user**. Do not fall back to working on `develop` or `main`.
+- The feature ID should appear in both the worktree directory name and the branch name so it is easy to identify later.
+
 ## Initial Response
 
 ## Handling User Input
 
 **CRITICAL**: When the user invokes this command, they may provide input in different ways:
 
-1. **Direct description**: `/create_spec Add user authentication` - Use the text after the command as the feature description
-2. **File reference**: `/create_spec @path/to/requirements.md` - The file contents will be expanded and provided. Use THIS CONTENT as the feature requirements, not any examples in this command file.
-3. **No parameters**: Just `/create_spec` - Ask the user for input as described in the Initial Response section
+1. **Direct description**: `/create-spec Add user authentication` - Use the text after the command as the feature description
+2. **File reference**: `/create-spec @path/to/requirements.md` - The file contents will be expanded and provided. Use THIS CONTENT as the feature requirements, not any examples in this command file.
+3. **No parameters**: Just `/create-spec` - Ask the user for input as described in the Initial Response section
 
 **IMPORTANT**: NEVER use example text from this command file as the feature description. Always use the ACTUAL content provided by the user.
 
@@ -43,7 +72,7 @@ When this command is invoked:
    - Begin the interactive requirements gathering process
 
 2. **If no parameters provided**, use the `AskUserQuestion` tool to prompt the user inline:
-   - Call `AskUserQuestion` with a single question: "What feature do you want to build? Give a brief description, or paste in requirements. (Tip: you can also invoke with `/create_spec <description>` directly.)"
+   - Call `AskUserQuestion` with a single question: "What feature do you want to build? Give a brief description, or paste in requirements. (Tip: you can also invoke with `/create-spec <description>` directly.)"
    - After receiving the description, proceed to Step 1 research — let research inform what follow-up questions are actually needed rather than front-loading generic questions.
 
 ## Progress Signaling
@@ -162,17 +191,17 @@ Continue the sequential questioning loop from Step 1, now digging into requireme
 1. **Generate initial user stories** based on gathered requirements:
    ```
    Based on our discussion, here are the key user stories I've identified:
-   
+
    **Epic: [Feature Name]**
-   
+
    1. **As a [user type], I want to [action] so that [benefit]**
       - Priority: [High/Medium/Low]
       - Complexity: [Small/Medium/Large]
-   
+
    2. **As a [user type], I want to [action] so that [benefit]**
       - Priority: [High/Medium/Low]
       - Complexity: [Small/Medium/Large]
-   
+
    ```
 
 2. **Get feedback using `AskUserQuestion`** — immediately after outputting the stories, call `AskUserQuestion` inline:
@@ -314,11 +343,11 @@ Let me develop acceptance criteria for each story. I'll start with the highest p
 ### Epic: [Epic Name]
 
 #### Story 1: [Story Title]
-**As a** [user type]  
-**I want to** [action/feature]  
+**As a** [user type]
+**I want to** [action/feature]
 **So that** [benefit/value]
 
-**Priority**: High | Medium | Low  
+**Priority**: High | Medium | Low
 **Effort**: Small (1-2 days) | Medium (3-5 days) | Large (1-2 weeks)
 
 **Acceptance Criteria**:
@@ -432,14 +461,14 @@ Let me develop acceptance criteria for each story. I'll start with the highest p
 
 ### Performance Requirements
 
-1. **Response Time**: 
+1. **Response Time**:
    - API calls: < [X] ms at p95
    - Page load: < [X] seconds
-   
+
 2. **Throughput**:
    - Expected: [X] requests/second
    - Peak: [X] requests/second
-   
+
 3. **Data Volume**:
    - Expected records: [X]
    - Growth rate: [X] per [time period]
@@ -631,16 +660,16 @@ Let me develop acceptance criteria for each story. I'll start with the highest p
 
 A complete feature specification should:
 
-✅ **Have clear user stories** with acceptance criteria  
-✅ **Define all data structures** with field specifications  
-✅ **Specify all API contracts** with request/response examples  
-✅ **Include UI/UX requirements** with interaction patterns  
-✅ **Document business logic** as testable rules  
-✅ **Address security and performance** requirements  
-✅ **Identify all dependencies** and integration points  
-✅ **Include test scenarios** for each user story  
-✅ **Have measurable success metrics**  
-✅ **Be specific enough** for AI to create an implementation plan  
+✅ **Have clear user stories** with acceptance criteria
+✅ **Define all data structures** with field specifications
+✅ **Specify all API contracts** with request/response examples
+✅ **Include UI/UX requirements** with interaction patterns
+✅ **Document business logic** as testable rules
+✅ **Address security and performance** requirements
+✅ **Identify all dependencies** and integration points
+✅ **Include test scenarios** for each user story
+✅ **Have measurable success metrics**
+✅ **Be specific enough** for AI to create an implementation plan
 
 ## Common Patterns by Feature Type
 

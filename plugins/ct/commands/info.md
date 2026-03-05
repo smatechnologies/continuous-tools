@@ -36,7 +36,7 @@ You are tasked with displaying the ct plugin's info dashboard. Output the logo, 
 ### Plugin Status
 | | |
 |---|---|
-| **Version** | [1.0.6](https://github.com/smatechnologies/continuous-tools/blob/main/plugins/ct/CHANGELOG.md)|
+| **Version** | [1.0.7](https://github.com/smatechnologies/continuous-tools/blob/main/plugins/ct/CHANGELOG.md)|
 | **Mode** | [MODE] |
 | **Agents** | 14 available |
 | **Commands** | 11 loaded |
@@ -45,7 +45,7 @@ You are tasked with displaying the ct plugin's info dashboard. Output the logo, 
 
 | Command | Description |
 |---------|-------------|
-| `/ct:create-spec` | Create a feature specification interactively |
+| `/ct:create-spec` | Create a feature specification interactively (auto-protects develop/main branches) |
 | `/ct:review-spec` | Review a spec for clarity and completeness |
 | `/ct:research-codebase` | Research a particular aspect of the codebase in depth |
 | `/ct:create-plan` | Build an implementation plan (provide spec and/or research doc) |

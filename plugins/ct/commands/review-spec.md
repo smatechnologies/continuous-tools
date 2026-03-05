@@ -26,7 +26,7 @@ Apply the following model assignment when using the Task tool:
 
 Always include the `model` parameter on every Task tool call based on the active mode and the agent's tier.
 
-Note: This review workflow is expected to run (and be completed) AFTER `/create_spec` and BEFORE `/create_plan`. If the user explicitly states they are skipping review (e.g., simple feature, time-boxed spike), you may proceed, but must warn that downstream planning quality may suffer.
+Note: This review workflow is expected to run (and be completed) AFTER `/create-spec` and BEFORE `/create-plan`. If the user explicitly states they are skipping review (e.g., simple feature, time-boxed spike), you may proceed, but must warn that downstream planning quality may suffer.
 
 Execution steps:
 
@@ -156,7 +156,7 @@ Execution steps:
      * **Clear** - Already sufficient in original spec
      * **Outstanding** - Still Partial/Missing but low impact or user chose to proceed
    - Readiness assessment: Explicitly state whether the spec is ready for `/create_plan` or needs another review pass.
-   - If any Outstanding or Deferred remain with high impact, recommend running `/review_spec` again or returning to `/create_spec` for deeper requirements gathering.
+   - If any Outstanding or Deferred remain with high impact, recommend running `/review-spec` again or returning to `/create-spec` for deeper requirements gathering.
 
 Behavior rules:
 - **Codebase-first principle**: ALWAYS attempt to answer code-related questions from the codebase BEFORE asking the user. The user should only be asked questions that require human judgment, domain knowledge, or business decisions - NOT questions like "what pattern exists?" or "how does X work?" that can be discovered by reading code.
