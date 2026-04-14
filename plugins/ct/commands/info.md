@@ -1,5 +1,6 @@
 ---
 description: View plugin version, mode, and commands
+allowed-tools: Read
 ---
 
 # Plugin Info
@@ -36,7 +37,7 @@ You are tasked with displaying the ct plugin's info dashboard. Output the logo, 
 ### Plugin Status
 | | |
 |---|---|
-| **Version** | [1.0.7](https://github.com/smatechnologies/continuous-tools/blob/main/plugins/ct/CHANGELOG.md)|
+| **Version** | [1.0.8](https://github.com/smatechnologies/continuous-tools/blob/main/plugins/ct/CHANGELOG.md)|
 | **Mode** | [MODE] |
 | **Agents** | 14 available |
 | **Commands** | 11 loaded |

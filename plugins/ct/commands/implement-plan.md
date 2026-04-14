@@ -1,6 +1,7 @@
 ---
 description: Execute an implementation plan with phased validation
 argument-hint: [plan-file-path]
+allowed-tools: Read Write Edit Glob Grep Agent Bash(git status:*) Bash(git diff:*) Bash(git log:*) Bash(git show:*) Bash(git rev-parse:*) Bash(git branch:*) Bash(git checkout:*) Bash(git stash:*) Bash(mkdir:*) Bash(poetry run pytest:*) Bash(poetry run mypy:*) Bash(poetry run ruff:*) Bash(pnpm test:*) Bash(pnpm lint:*) Bash(pnpm tsc:*)
 ---
 
 # Implement Plan

@@ -1,6 +1,7 @@
 ---
 description: Review a spec for ambiguity, completeness, and clarity
 argument-hint: [spec-file-path]
+allowed-tools: Read Write Edit Glob Grep Agent
 ---
 
 # Review Feature Specification

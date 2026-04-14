@@ -2,6 +2,10 @@
 
 All notable changes to the **ct** plugin will be documented in this file.
 
+## [1.0.8] - 2026-04-14
+### Added
+- All 11 `/ct:` commands now declare `allowed-tools` in frontmatter, pre-approving non-destructive tool permissions while each skill is active. This eliminates repeated permission prompts during skill execution. Write/Edit are scoped only to skills that modify files; all whitelisted Bash commands are non-destructive (no force pushes, branch deletions, or file removals).
+
 ## [1.0.7] - 2026-03-04
 ### Improved
 - `/ct:create-spec` now includes a branch safety check (Step 0): when invoked on the `develop` or `main` branch, it automatically creates a git worktree to protect those branches from accidental commits. On any other branch, it proceeds normally.

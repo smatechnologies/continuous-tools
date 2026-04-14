@@ -1,5 +1,6 @@
 ---
 description: Create git commits following project conventions
+allowed-tools: Read Bash(git status:*) Bash(git diff:*) Bash(git log:*) Bash(git show:*) Bash(git add:*) Bash(git commit:*)
 ---
 
 # Commit Changes

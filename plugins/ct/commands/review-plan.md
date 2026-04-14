@@ -1,6 +1,7 @@
 ---
 description: Review a plan for ambiguity, completeness, and clarity
 argument-hint: [plan-file-path]
+allowed-tools: Read Write Edit Glob Grep Agent
 ---
 
 # Review Plan
