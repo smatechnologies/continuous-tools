@@ -1,7 +1,7 @@
 ---
 description: Create a detailed implementation plan
 argument-hint: [spec-path] [research-file-path]
-allowed-tools: Read Write Glob Grep Agent Bash(git branch:*) Bash(git rev-parse:*) Bash(mkdir:*)
+allowed-tools: Read Write Glob Grep Agent Bash(git branch:*) Bash(git rev-parse:*) Bash(git log:*) Bash(git status:*) Bash(git diff:*) Bash(mkdir:*)
 ---
 
 # Create Plan

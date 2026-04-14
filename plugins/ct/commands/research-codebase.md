@@ -1,7 +1,7 @@
 ---
 description: Research the codebase and generate a report
 argument-hint: [research topic or @context-file-path]
-allowed-tools: Read Write Glob Grep Agent Bash(git rev-parse:*) Bash(git branch:*) Bash(mkdir:*)
+allowed-tools: Read Write Glob Grep Agent Bash(git rev-parse:*) Bash(git branch:*) Bash(git log:*) Bash(git show:*) Bash(git status:*) Bash(mkdir:*)
 ---
 
 # Research Codebase
