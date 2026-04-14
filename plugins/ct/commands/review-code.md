@@ -1,7 +1,7 @@
 ---
 description: Delegate code reviews to specialized review agents
 argument-hint: [plan-file-path] [directory-path]
-allowed-tools: Read Glob Grep Agent
+allowed-tools: Read Glob Grep Agent Bash(git log:*) Bash(git diff:*) Bash(git show:*) Bash(git status:*)
 ---
 
 # Code Review
