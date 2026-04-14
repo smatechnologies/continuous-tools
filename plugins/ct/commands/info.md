@@ -1,5 +1,6 @@
 ---
 description: View plugin version, mode, and commands
+allowed-tools: Read
 ---
 
 # Plugin Info

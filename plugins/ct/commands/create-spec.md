@@ -1,6 +1,7 @@
 ---
 description: Create a detailed feature specification (with branch protection for develop/main)
 argument-hint: [feature-description]
+allowed-tools: Read Write Glob Grep Agent Bash(git branch:*) Bash(git rev-parse:*) Bash(mkdir:*)
 ---
 
 # Create Feature Specification

@@ -1,6 +1,7 @@
 ---
 description: Investigate and fix bugs using debug-investigator agent
 argument-hint: [bug-description]
+allowed-tools: Read Edit Glob Grep Agent Bash(git status:*) Bash(git diff:*) Bash(poetry run pytest:*) Bash(poetry run mypy:*) Bash(poetry run ruff:*) Bash(pnpm test:*) Bash(pnpm lint:*) Bash(pnpm tsc:*)
 ---
 
 # Debug Issue

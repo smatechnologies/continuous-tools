@@ -1,6 +1,7 @@
 ---
 description: Switch between Quality and Balanced modes
 argument-hint: [quality] [balanced]
+allowed-tools: Read Write Edit
 ---
 
 # Set Plugin Mode

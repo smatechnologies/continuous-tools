@@ -1,6 +1,7 @@
 ---
 description: Delegate code reviews to specialized review agents
 argument-hint: [plan-file-path] [directory-path]
+allowed-tools: Read Glob Grep Agent
 ---
 
 # Code Review
